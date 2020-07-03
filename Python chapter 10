@@ -13,4 +13,104 @@ print(jieba.lcut(line))
 jieba.add_word('意大利面')
 print(jieba.lcut(line))
 
-自选一篇报告或者演讲稿，利用
+自选一篇报告或者演讲稿，利用jieba分析出其词频排前5的关键词。
+
+import jieba
+def GETFILETEXT():
+    f=open('IHaveaDream.txt','r',encoding='utf-8')
+    txt=f.read()
+    f.close()
+    return txt
+
+def FILEPROCESS(txt):
+    counts={}
+    words=jieba.lcut(txt)
+    excludes=['is','one','day','of','to','for',\
+              'as','in','the','and','be','will',\
+              'that','we','have','our','from','this',\
+              'with','not','And']
+    for word in words:
+        if len(word)==1:
+            continue
+        else:
+            counts[word]=counts.get(word,0)+1
+    for word in excludes:
+        del counts[word]
+    return counts
+
+def PRINTTOP(counts):
+    items=list(counts.items())
+    items.sort(key=lambda x:x[1],reverse=True)
+    for i in range(5):
+        word,count=items[i]
+        print('{0:<10}{1:>10}'.format(word,count))
+    
+def MAIN():
+    txt=GETFILETEXT()
+    counts=FILEPROCESS(txt)
+    PRINTTOP(counts)
+MAIN()
+
+参考本章最后的实例，选择你喜欢的小说，统计出场人物词频排名。
+
+import jieba
+def GETFILE():
+    #f=open('xiyoujiexample.txt','rb')
+    f=open('xiyoujiexample.txt','r',encoding='utf-8')
+    txt=f.read()
+    f.close()
+    return txt
+
+def COUNTFILE(txt):
+    counts={}
+    words=jieba.lcut(txt)
+    #print(words)#会卡爆
+    excludes={'妖怪','一个','变成','祖师','他们','孙悟空',\
+              #'\r\n','美猴王','猴子','看见','花果山','出来',\
+              '来到','石猴','没有','长生不老','师父','起来','自己'}
+    for word in words:
+        if len(word)==1:
+            continue
+        else:
+            counts[word]=counts.get(word,0)+1
+    for word in excludes:
+        del counts[word]
+    return counts
+
+def PRINTCOUNT(counts):
+    items=list(counts.items())
+    items.sort(key=lambda x:x[1],reverse=True)
+    #print(items)
+    for i in range(10):
+        word,count=items[i]
+        print('{0:<10}{1:>10}'.format(word,count))
+        
+def MAIN():
+    txt=GETFILE()
+    counts=COUNTFILE(txt)
+    PRINTCOUNT(counts)
+MAIN()
+
+续上题，将上题结果以词云的方式展现，并尝试美化生成的词云图片。
+
+from wordcloud import WordCloud
+from imageio import imread
+import jieba
+mk=imread('wukong001.jpg')
+f=open('xiyoujiexample.txt','r',encoding='utf-8')#通过记事本另存为来更改编码,rb是不行的
+txt=f.read()
+f.close()
+#print(txt)
+words=jieba.lcut(txt)
+newtxt=' '.join(words)
+#print(newtxt)
+wordcloud=WordCloud(background_color='white',\
+                    font_path='msyh.ttc',\
+                    ##没有这一行分分钟乱码
+                    max_words=350,\
+                    width=800,\
+                    height=600,\
+                    max_font_size=80,\
+                    mask=mk,\
+                    ).generate(newtxt)
+wordcloud.to_file('xiyouji001.png')
