@@ -1,1 +1,6 @@
 使用jieba.cut()对“Python是最有意思的编程语言”进行分词，输出结果，并将该迭代器转换为列表类型。
+
+import jieba
+line='Python是最有意思的编程语言'
+ls=jieba.lcut(line)
+print(ls)
