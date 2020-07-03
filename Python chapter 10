@@ -1,6 +1,16 @@
-使用jieba.cut()对“Python是最有意思的编程语言”进行分词，输出结果，并将该迭代器转换为列表类型。
+使用jieba.lcut()对“Python是最有意思的编程语言”进行分词，输出结果，并将该迭代器转换为列表类型。
 
 import jieba
 line='Python是最有意思的编程语言'
 ls=jieba.lcut(line)
 print(ls)
+
+使用jieba.lcut()对“今天晚上我吃了意大利面”进行分词，输出结果，并使“意大利面”作为一个词出现在结果中。
+
+import jieba
+line='今天晚上我吃了意大利面'
+print(jieba.lcut(line))
+jieba.add_word('意大利面')
+print(jieba.lcut(line))
+
+自选一篇报告或者演讲稿，利用
