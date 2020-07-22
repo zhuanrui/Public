@@ -4,3 +4,5 @@ https://www.sq688.com/
 http://www.zmtiantang.cc/
 美剧
 http://www.7meiju.com/
+python国内源
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple
